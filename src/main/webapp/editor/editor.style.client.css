@@ -7,7 +7,7 @@ html,body,.container
 .widget {
 	border-style: solid;
 	border-color: grey;
-	margin-right: 0 auto;
+	margin-right: 0;
     margin-left: 10%;
     border-radius: 30px;
     background-color: white;
