@@ -1,0 +1,123 @@
+html,body,.container
+{
+    height:100%;
+}
+
+
+.widget {
+	border-style: solid;
+	border-color: grey;
+	margin-right: 0 auto;
+    margin-left: 10%;
+    border-radius: 30px;
+    background-color: white;
+}
+
+.heading {
+	color: white;
+}
+.navpills > ul.nav-pills   {
+}
+
+.nav-link {
+	background-color: rgb(100,100,100, 0.6);
+	color: white;
+	border: solid grey 1px;
+	font-family: sans-serif;
+}
+
+.nav-pills > li.nav-item > a.active {
+	background-color: rgb(50,50,50, 0.8);
+}
+
+.nav-link:hover {
+	background-color: rgb(100,100,100, 0.3);
+	color: white;
+}
+
+.inner_widget {
+	border-style: solid;
+	height: 50px;
+	margin: 0 auto;	
+	margin-top: 0;
+}
+
+
+.widget-options {
+	float: right;
+	margin: 5px;
+}
+
+.widgetheading {
+	float: left;
+}
+
+.navbar_class {
+	height: 60px;
+	margin: 0 auto;
+}
+
+.splitpage {
+	padding-top: 75px;
+	min-height: 100%;
+}
+
+.nav-link {
+	margin: 10px;
+}
+
+.leftcolumn {
+	background-color: black;
+}
+
+.container-fluid {
+	margin-left: 0px;
+}
+
+.savebutton {
+	float: right;
+	margin: 10px;
+}
+
+.headelements {
+	float: right;
+	background-color: maroon;
+	color: yellow;
+	padding: 10px;
+	margin: 10px;
+}
+
+.headcross {
+	color: silver;
+	padding: 10px;
+	margin: 10px;
+}
+
+.headelement {
+float: right;
+margin: 10px;
+}
+
+.fa-toggle-on {
+	margin-right: 70px;
+}
+
+.plusright {
+	position: fixed;
+	color: red;
+	bottom: 100px;
+	right: 100px;
+}
+
+.plusleft {
+	position: fixed;
+	color: rgb(200,200,200);
+	bottom: 100px;
+	left: 400px;
+}
+
+
+
+.rightcolumn {
+	background-color: rgb(200,200,200);
+}
