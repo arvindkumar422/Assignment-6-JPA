@@ -1,24 +1,31 @@
 package com.example.Assignment1.model;
 
 public class User {
-  private Integer id;
+  private String id;
   private String username;
   private String password;
   private String firstName;
+
+
+
   private String lastName;
 
-  public User(Integer id, String username, String firstName, String lastName) {
+  public User(String id, String username, String firstName, String lastName) {
     this.id = id;
+    this.password = "asa";
     this.username = username;
     this.firstName = firstName;
     this.lastName = lastName;
   }
 
-  public Integer getId() {
+  public User() {
+  }
+
+  public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 

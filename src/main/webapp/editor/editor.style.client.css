@@ -20,18 +20,18 @@ html,body,.container
 }
 
 .nav-link {
-	background-color: rgb(100,100,100, 0.6);
+	background-color: rgba(100,100,100, 0.6);
 	color: white;
 	border: solid grey 1px;
 	font-family: sans-serif;
 }
 
 .nav-pills > li.nav-item > a.active {
-	background-color: rgb(50,50,50, 0.8);
+	background-color: rgba(50,50,50, 0.8);
 }
 
 .nav-link:hover {
-	background-color: rgb(100,100,100, 0.3);
+	background-color: rgba(100,100,100, 0.3);
 	color: white;
 }
 
