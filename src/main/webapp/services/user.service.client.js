@@ -26,7 +26,7 @@ function AdminUserServiceClient() {
             });
     }
     function findUserById(userId) {
-        console.log(userId);
+        //console.log(userId);
         return(fetch(this.url + '/' + userId)
             .then(function (response) {
                 console.log(response);
@@ -34,7 +34,15 @@ function AdminUserServiceClient() {
             }));
 
     }
-    function updateUser(userId, user, callback) {
+    function updateUser(userId, user) {
+        return(fetch(this.url + '/' + userId,
+            {
+                method: 'put',
+                body: JSON.stringify(user),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }));
 
     }
     function deleteUser(userId) {
