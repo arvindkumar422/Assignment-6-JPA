@@ -29,11 +29,11 @@ function AdminUserServiceClient() {
         //console.log(userId);
         return(fetch(this.url + '/' + userId)
             .then(function (response) {
-                console.log(response);
                 return response.json();
             }));
 
     }
+
     function updateUser(userId, user) {
         return(fetch(this.url + '/' + userId,
             {

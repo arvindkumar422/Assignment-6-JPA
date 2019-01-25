@@ -1,5 +1,4 @@
 (function () {
-    var user = User();
     var $usernameFld, $passwordFld;
     var $removeBtn, $selectBtn, $updateBtn, $createBtn, $findBtn;
     var $firstNameFld, $lastNameFld, $roleFld;
@@ -42,7 +41,7 @@
 
         if (validateForm()) {
 
-            let uuu = new User(id, usernameStr, pwd, firstName, lastName, roletype);
+            //var uuu = User(id, usernameStr, pwd, firstName, lastName, roletype);
             var userObj = {
                 id: uid,
                 username: usernameStr,
@@ -71,14 +70,12 @@
     }
 
     function findUserById(uid) {
-        var username = $usernameFld.val();
         userService.findUserById(uid)
             .then(function () {
                 userService
                     .findUserById(uid)
                     .then(updateForm);
             });
-        //promise2.then(renderUser);
     }
 
     function updateForm(user) {
@@ -93,8 +90,7 @@
         var button = $(event.currentTarget);
         var parent = button.parents(".wbdv-template");
         var id = parent.attr("id");
-        //var parent = button.parents(".wbdv-template");
-        // parent.remove();
+
         userService
             .deleteUser(id)
             .then(function () {
@@ -102,9 +98,6 @@
                     .findAllUsers()
                     .then(renderUsers);
             });
-    }
-
-    function selectUser() {
     }
 
     function updateUserForm() {
@@ -117,13 +110,13 @@
 
         var usr = findUserById(id);
 
-        console.log(usr);
+        //console.log(usr);
 
-        var usernameStr = document.getElementById(id).childNodes[1].innerText;
-        var pwd = document.getElementById(id).childNodes[3].innerText;
-        var firstName = document.getElementById(id).childNodes[5].innerText;
-        var lastName = document.getElementById(id).childNodes[7].innerText;
-        var roletype = document.getElementById(id).childNodes[9].innerText;
+        // var usernameStr = document.getElementById(id).childNodes[1].innerText;
+        // var pwd = document.getElementById(id).childNodes[3].innerText;
+        // var firstName = document.getElementById(id).childNodes[5].innerText;
+        // var lastName = document.getElementById(id).childNodes[7].innerText;
+        // var roletype = document.getElementById(id).childNodes[9].innerText;
 
         // var userObj = {
         //     id: id,
@@ -134,7 +127,7 @@
         //     role: roletype
         // };
 
-        const userObj = new User(id, usernameStr, pwd, firstName, lastName, roletype);
+        // const userObj = new User(id, usernameStr, pwd, firstName, lastName, roletype);
     }
 
     function updateUser() {
@@ -216,6 +209,7 @@
             alert("Please enter Username value.");
             return false;
         }
+
         if (password.length == 0) {
             alert("Please enter Password value.");
             return false;
@@ -226,4 +220,5 @@
         }
         return true;
     }
+
 })();
