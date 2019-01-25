@@ -27,3 +27,7 @@ a:hover, a:active {
 li {
 	list-style-type: none;
 }
+
+a {
+    margin: 20px;
+}

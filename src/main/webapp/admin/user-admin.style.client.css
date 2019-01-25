@@ -28,3 +28,7 @@ td {
 .wbdv-form {
     background-color: navajowhite;
 }
+
+.hidetext {
+    -webkit-text-security: disc;
+}
