@@ -41,6 +41,7 @@
 
         if (validateForm()) {
 
+            //let uuu = new User(id, usernameStr, pwd, firstName, lastName, roletype);
             var userObj = {
                 id: uid,
                 username: usernameStr,

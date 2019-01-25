@@ -1,3 +1,30 @@
+body {
+    background-color: snow;
+}
+
 .wbdv-hidden {
     display: none;
+}
+
+h1 {
+    display: block;
+    background-color: aquamarine;
+    margin: 0px;
+    padding: 10px;
+    text-align: center;
+    border-bottom: solid crimson;
+}
+
+th {
+    font-family: Lato;
+    font-size: large;
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+.wbdv-form {
+    background-color: navajowhite;
 }
