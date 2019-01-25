@@ -70,17 +70,20 @@ public class UserService {
 
   }
 
-  @GetMapping("/api/user/{username}/{firstName}/{lastName}")
+  @GetMapping("/api/user/{username}/{firstName}/{lastName}/{role}")
   public List findUsersByField(@PathVariable("username") String username,
                                @PathVariable("firstName") String firstName,
-                               @PathVariable("lastName") String lastName)
+                               @PathVariable("lastName") String lastName,
+                               @PathVariable("role") Role role)
   {
     List<User> newList = new ArrayList<>();
     for(User user : l) {
       if(user.getUsername().equals(username) || username.equals("un=*")) {
         if(user.getFirstName().equals(firstName) || firstName.equals("fn=*")) {
           if(user.getLastName().equals(lastName) || lastName.equals("ln=*")) {
-            newList.add(user);
+            if(user.getRole().equals(role) || role.equals("rl=*")) {
+              newList.add(user);
+            }
           }
         }
       }

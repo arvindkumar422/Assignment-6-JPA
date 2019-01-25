@@ -51,7 +51,7 @@ function AdminUserServiceClient() {
         })
     }
 
-    function findUsersByField(usernameStr, firstNameStr, lastNameStr) {
+    function findUsersByField(usernameStr, firstNameStr, lastNameStr, roleStr) {
 
         var temp_url = 'http://localhost:8080/api/user';
         if (usernameStr.length != 0) {
@@ -71,6 +71,12 @@ function AdminUserServiceClient() {
         }
         else {
             temp_url += '/ln=*';
+        }
+        if (roleStr.length != 0) {
+            temp_url += '/' + roleStr;
+        }
+        else {
+            temp_url += '/rl=*';
         }
         console.log(temp_url);
         return fetch(temp_url)

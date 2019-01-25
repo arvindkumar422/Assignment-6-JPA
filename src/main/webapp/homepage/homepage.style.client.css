@@ -4,7 +4,7 @@ html,body
 }
 
 body {
-   background: rgb(100,100,100,0.2);
+   background: rgba(100,100,100,0.2);
   }
 
 .navbar {
@@ -20,7 +20,7 @@ body {
 
 
 .header {
-	background-color: rgb(100,100,100,0.2);
+	background-color: rgba(100,100,100,0.2);
 	width: 100%;
 }
 
@@ -73,3 +73,13 @@ th {
 	bottom: 100px;
 	right: 100px;
 }
+
+.fa-file-alt {
+	color: cornflowerblue;
+}
+
+.titletext {
+	color: blue;
+	text-decoration: underline;
+}
+

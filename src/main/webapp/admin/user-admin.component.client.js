@@ -6,8 +6,6 @@
     var userService = new AdminUserServiceClient();
     $(main);
 
-
-
     function main() {
         $usernameFld = $("#usernameFld");
         $passwordFld = $("#passwordFld");
@@ -31,6 +29,7 @@
         promise.then(renderUsers);
 
     }
+
     function createUser() {
 
         var usernameStr = $usernameFld.val();
@@ -40,43 +39,34 @@
         var roletype = $roleFld.val();
         var uid = new Date().getTime().toString();
 
-        var userObj = {
-            id: uid,
-            username: usernameStr,
-            password: pwd,
-            firstName: firstName,
-            lastName: lastName,
-            role: roletype
-        };
-        //const userObj = new User(uid, usernameStr, pwd, firstName, lastName, roletype);
+        if (validateForm()) {
 
+            var userObj = {
+                id: uid,
+                username: usernameStr,
+                password: pwd,
+                firstName: firstName,
+                lastName: lastName,
+                role: roletype
+            };
 
-        //userService.createUser(JSON.stringify(userObj));
-
-        userService.createUser(userObj).then(function () {
-            userService
-                .findUserById(uid)
-                .then(renderUser);
-        });
-
-        // var newUser = $userRowTemplate.clone();
-        // newUser.removeClass("wbdv-hidden");
-        // newUser.find(".wbdv-username").html(username);
-        // newUser.attr("id", timestamp);
-        //
-        // $tbody.append(newUser);
-
-        //newUser.find(".wbdv-remove").click(deleteUser);
+            userService.createUser(userObj).then(function () {
+                userService
+                    .findUserById(uid)
+                    .then(renderUser);
+            });
+        }
     }
+
     function findAllUsers() {
         var usernameStr = $usernameFld.val();
         var firstNameStr = $firstNameFld.val();
         var lastNameStr = $lastNameFld.val();
         var roletype = $roleFld.val();
 
-        userService.findUsersByField(usernameStr, firstNameStr, lastNameStr).then(renderUsers);
+        userService.findUsersByField(usernameStr, firstNameStr, lastNameStr, roletype)
+            .then(renderUsers);
     }
-
 
     function findUserById(uid) {
         var username = $usernameFld.val();
@@ -111,7 +101,10 @@
                     .then(renderUsers);
             });
     }
-    function selectUser() {  }
+
+    function selectUser() {
+    }
+
     function updateUserForm() {
 
         var button = $(event.currentTarget);
@@ -122,7 +115,6 @@
 
         var usr = findUserById(id);
 
-
         console.log(usr);
 
         var usernameStr = document.getElementById(id).childNodes[1].innerText;
@@ -130,7 +122,6 @@
         var firstName = document.getElementById(id).childNodes[5].innerText;
         var lastName = document.getElementById(id).childNodes[7].innerText;
         var roletype = document.getElementById(id).childNodes[9].innerText;
-
 
         // var userObj = {
         //     id: id,
@@ -153,7 +144,6 @@
         var button = $(event.currentTarget);
         var id = button.attr("id");
 
-
         var userObj = {
             id: id,
             username: usernameStr,
@@ -167,12 +157,11 @@
 
         userService.updateUser(id, userObj)
             .then(function () {
-            userService
-                .findAllUsers()
-                .then(renderUsers);
-        });
+                userService
+                    .findAllUsers()
+                    .then(renderUsers);
+            });
     }
-
 
     function renderUser(user) {
         var clone = $userRowTemplate.clone();
@@ -192,10 +181,11 @@
         $firstNameFld.val("");
         $lastNameFld.val("");
     }
+
     function renderUsers(users) {
 
         $tbody.find("tr:gt(0)").remove();
-        for(var i = 0; i < users.length; i++) {
+        for (var i = 0; i < users.length; i++) {
             var clone = $userRowTemplate.clone();
             clone.find(".wbdv-username").html(users[i].username);
             clone.find(".wbdv-password").html(users[i].password);
@@ -213,5 +203,25 @@
             $firstNameFld.val("");
             $lastNameFld.val("");
         }
+    }
+
+    function validateForm() {
+        var username = $usernameFld.val();
+        var password = $passwordFld.val();
+        var firstname = $firstNameFld.val();
+
+        if (username.length == 0) {
+            alert("Please enter Username value.");
+            return false;
+        }
+        if (password.length == 0) {
+            alert("Please enter Password value.");
+            return false;
+        }
+        if (firstname.length == 0) {
+            alert("Please enter First Name value.");
+            return false;
+        }
+        return true;
     }
 })();
