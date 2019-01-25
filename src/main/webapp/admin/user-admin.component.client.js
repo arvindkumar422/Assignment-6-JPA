@@ -1,4 +1,5 @@
 (function () {
+    var user = User();
     var $usernameFld, $passwordFld;
     var $removeBtn, $selectBtn, $updateBtn, $createBtn, $findBtn;
     var $firstNameFld, $lastNameFld, $roleFld;
@@ -41,7 +42,7 @@
 
         if (validateForm()) {
 
-            //let uuu = new User(id, usernameStr, pwd, firstName, lastName, roletype);
+            let uuu = new User(id, usernameStr, pwd, firstName, lastName, roletype);
             var userObj = {
                 id: uid,
                 username: usernameStr,

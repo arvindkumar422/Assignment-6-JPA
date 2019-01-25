@@ -50,6 +50,7 @@ th {
 .course_manager {
 	color: white;
 	margin-right: 50px;
+	margin-left: 20px;
 }
 
 
@@ -60,6 +61,10 @@ th {
     {
         display: none;
     }
+	.course_manager
+	{
+		font-size: large;
+	}
 }
 
 .newcourse{
