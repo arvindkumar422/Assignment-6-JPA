@@ -1,5 +1,6 @@
 package com.example.Assignment1.services;
 
+import com.example.Assignment1.model.Role;
 import com.example.Assignment1.model.User;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,9 +21,12 @@ public class UserService {
 
 
 
-  User alice = new User("123", "abc", "def", "ghi");
-  User bob = new User("456", "bob", "jkl", "mno");
-  User carl = new User("789", "carl", "pqr", "stu");
+  User alice = new User("123", "abc", "ppp",
+          "def", "ghi", Role.FACULTY);
+  User bob = new User("456", "bob", "qqq",
+          "jkl", "mno", Role.STUDENT);
+  User carl = new User("789", "carl", "rrr",
+          "pqr", "stu", Role.ADMIN);
 
   List<User> l = new ArrayList(){{
     add(alice);
@@ -81,7 +85,6 @@ public class UserService {
         }
       }
     }
-    System.out.println(newList);
     return newList;
   }
 
@@ -94,12 +97,16 @@ public class UserService {
         if(user.getUsername().length() != 0) {
           l.get(i).setUsername(user.getUsername());
         }
+        if(user.getPassword().length() != 0) {
+          l.get(i).setPassword(user.getPassword());
+        }
         if(user.getFirstName().length() != 0) {
           l.get(i).setFirstName(user.getFirstName());
         }
         if(user.getLastName().length() != 0) {
           l.get(i).setLastName(user.getLastName());
         }
+        l.get(i).setRole(user.getRole());
       }
       else {
         continue;

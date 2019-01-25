@@ -5,17 +5,17 @@ public class User {
   private String username;
   private String password;
   private String firstName;
-
-
-
   private String lastName;
+  private Role role;
 
-  public User(String id, String username, String firstName, String lastName) {
+  public User(String id, String username, String password,
+              String firstName, String lastName, Role role) {
     this.id = id;
-    this.password = "asa";
+    this.password = password;
     this.username = username;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.role = role;
   }
 
   public User() {
@@ -61,5 +61,11 @@ public class User {
     this.lastName = lastName;
   }
 
+  public Role getRole() {
+    return role;
+  }
 
+  public void setRole(Role role) {
+    this.role = role;
+  }
 }

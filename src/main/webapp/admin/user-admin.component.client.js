@@ -1,7 +1,7 @@
 (function () {
     var $usernameFld, $passwordFld;
     var $removeBtn, $selectBtn, $updateBtn, $createBtn, $findBtn;
-    var $firstNameFld, $lastNameFld;
+    var $firstNameFld, $lastNameFld, $roleFld;
     var $userRowTemplate, $tbody;
     var userService = new AdminUserServiceClient();
     $(main);
@@ -18,6 +18,7 @@
         $findBtn = $("#searchBtn");
         $firstNameFld = $("#firstNameFld");
         $lastNameFld = $("#lastNameFld");
+        $roleFld = $("#roleFld");
 
         $userRowTemplate = $(".wbdv-template.wbdv-user");
         $tbody = $(".wbdv-tbody");
@@ -36,15 +37,18 @@
         var pwd = $passwordFld.val();
         var firstName = $firstNameFld.val();
         var lastName = $lastNameFld.val();
+        var roletype = $roleFld.val();
         var uid = new Date().getTime().toString();
 
         var userObj = {
             id: uid,
             username: usernameStr,
+            password: pwd,
             firstName: firstName,
             lastName: lastName,
+            role: roletype
         };
-
+        //const userObj = new User(uid, usernameStr, pwd, firstName, lastName, roletype);
 
 
         //userService.createUser(JSON.stringify(userObj));
@@ -68,6 +72,7 @@
         var usernameStr = $usernameFld.val();
         var firstNameStr = $firstNameFld.val();
         var lastNameStr = $lastNameFld.val();
+        var roletype = $roleFld.val();
 
         userService.findUsersByField(usernameStr, firstNameStr, lastNameStr).then(renderUsers);
     }
@@ -80,14 +85,16 @@
                 userService
                     .findUserById(uid)
                     .then(updateForm);
-            });;
+            });
         //promise2.then(renderUser);
     }
 
     function updateForm(user) {
         document.getElementById("usernameFld").value = user.username;
+        document.getElementById("passwordFld").value = user.password;
         document.getElementById("firstNameFld").value = user.firstName;
         document.getElementById("lastNameFld").value = user.lastName;
+        document.getElementById("roleFld").value = user.role;
     }
 
     function deleteUser(event) {
@@ -119,40 +126,30 @@
         console.log(usr);
 
         var usernameStr = document.getElementById(id).childNodes[1].innerText;
+        var pwd = document.getElementById(id).childNodes[3].innerText;
         var firstName = document.getElementById(id).childNodes[5].innerText;
         var lastName = document.getElementById(id).childNodes[7].innerText;
+        var roletype = document.getElementById(id).childNodes[9].innerText;
 
 
-
-        var userObj = {
-            id: id,
-            username: usernameStr,
-            firstName: firstName,
-            lastName: lastName,
-        };
-
-        // console.log(id);
-        //
         // var userObj = {
         //     id: id,
         //     username: usernameStr,
+        //     password: pwd,
         //     firstName: firstName,
         //     lastName: lastName,
+        //     role: roletype
         // };
-        //
-        // userService.updateUser(id, userObj).then(function () {
-        //     userService
-        //         .findUserById(id)
-        //         .then(renderUser);
-        // });
 
-
+        const userObj = new User(id, usernameStr, pwd, firstName, lastName, roletype);
     }
 
     function updateUser() {
         var usernameStr = $usernameFld.val();
+        var pwd = $passwordFld.val();
         var firstName = $firstNameFld.val();
         var lastName = $lastNameFld.val();
+        var roletype = $roleFld.val();
         var button = $(event.currentTarget);
         var id = button.attr("id");
 
@@ -160,9 +157,13 @@
         var userObj = {
             id: id,
             username: usernameStr,
+            password: pwd,
             firstName: firstName,
             lastName: lastName,
+            role: roletype
         };
+
+        //const userObj = new User(id, usernameStr, pwd, firstName, lastName, roletype);
 
         userService.updateUser(id, userObj)
             .then(function () {
@@ -176,8 +177,10 @@
     function renderUser(user) {
         var clone = $userRowTemplate.clone();
         clone.find(".wbdv-username").html(user.username);
+        clone.find(".wbdv-password").html(user.password);
         clone.find(".wbdv-first-name").html(user.firstName);
         clone.find(".wbdv-last-name").html(user.lastName);
+        clone.find(".wbdv-role").html(user.role);
         clone.removeClass("wbdv-hidden");
         clone.attr("id", user.id);
         clone.find(".wbdv-remove").click(deleteUser);
@@ -195,8 +198,10 @@
         for(var i = 0; i < users.length; i++) {
             var clone = $userRowTemplate.clone();
             clone.find(".wbdv-username").html(users[i].username);
+            clone.find(".wbdv-password").html(users[i].password);
             clone.find(".wbdv-first-name").html(users[i].firstName);
             clone.find(".wbdv-last-name").html(users[i].lastName);
+            clone.find(".wbdv-role").html(users[i].role);
             clone.attr("id", users[i].id);
             clone.removeClass("wbdv-hidden");
             clone.find(".wbdv-remove").click(deleteUser);
