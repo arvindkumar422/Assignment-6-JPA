@@ -118,15 +118,7 @@
         // var lastName = document.getElementById(id).childNodes[7].innerText;
         // var roletype = document.getElementById(id).childNodes[9].innerText;
 
-        // var userObj = {
-        //     id: id,
-        //     username: usernameStr,
-        //     password: pwd,
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     role: roletype
-        // };
-
+       
         // const userObj = new User(id, usernameStr, pwd, firstName, lastName, roletype);
     }
 
