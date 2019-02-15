@@ -1,5 +1,6 @@
-html, body, .container {
-    height: 100%;
+html, body, .container-fluid {
+    min-height: 100%;
+    width: 100%;
 }
 
 .widget {
@@ -66,10 +67,10 @@ html, body, .container {
 
 .leftcolumn {
     background-color: black;
+    margin-left: 0;
 }
 
 .container-fluid {
-    margin-left: 0px;
 }
 
 .savebutton {
@@ -120,4 +121,8 @@ html, body, .container {
 
 .moduletext {
     text-align: center;
+}
+
+.navtabs {
+    margin-bottom: 0px;
 }
