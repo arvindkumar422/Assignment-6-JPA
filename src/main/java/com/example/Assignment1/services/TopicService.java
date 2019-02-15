@@ -22,7 +22,7 @@ public class TopicService {
   List<Topic> topics = new ArrayList<>();
   LessonService lessonService = new LessonService();
 
-  @PostMapping("/api/modules/{moduleId}/lessons")
+  @PostMapping("/api/lesson/{lessonId}/topics")
   public Topic createTopic(@PathVariable("lessonId") String lessonId, @RequestBody Topic topic) {
     Lesson lesson = lessonService.findLessonById(lessonId);
     lesson.getTopics().add(topic);
@@ -30,7 +30,7 @@ public class TopicService {
     return topic;
   }
 
-  @GetMapping("/api/modules/{moduleId}/lessons")
+  @GetMapping("/api/lessons/{lessonId}/topics")
   public List findAllTopics(@PathVariable("lessonId") String lessonId) {
     Lesson lesson = lessonService.findLessonById(lessonId);
     return lesson.getTopics();
