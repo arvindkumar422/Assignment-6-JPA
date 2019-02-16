@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
 public class LessonService {
 
   List<Lesson> lessons = new ArrayList<>();
+  CourseService courseService = new CourseService();
   ModuleService moduleService = new ModuleService();
 
   @PostMapping("/api/modules/{moduleId}/lessons")
@@ -32,16 +33,20 @@ public class LessonService {
   }
 
   @GetMapping("/api/modules/{moduleId}/lessons")
-  public List findAllLessons(@PathVariable("moduleId") String moduleId) {
-    Module module = moduleService.findModuleById(moduleId);
+  public List<Lesson> findAllLessons(@PathVariable("moduleId") String moduleId) {
+    Module module = ModuleService.findModuleById(moduleId);
     return module.getLessons();
   }
 
   @GetMapping("/api/lessons/{lessonId}")
-  public Lesson findLessonById(@PathVariable("lessonId") String lessonId) {
-    for(Lesson lesson : lessons) {
-      if(lesson.getId().equals(lessonId)) {
-        return lesson;
+  public static Lesson findLessonById(@PathVariable("lessonId") String lessonId) {
+    for(Course course : CourseService.findAllCourses()) {
+      for(Module module : course.getModules()) {
+        for(Lesson lesson : module.getLessons()) {
+          if (lesson.getId().equals(lessonId)) {
+            return lesson;
+          }
+        }
       }
     }
     return null;

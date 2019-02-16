@@ -1,8 +1,10 @@
 package com.example.Assignment1.services;
 
+import com.example.Assignment1.model.Course;
 import com.example.Assignment1.model.Lesson;
 import com.example.Assignment1.model.Module;
 import com.example.Assignment1.model.Topic;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,12 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
 public class TopicService {
   List<Topic> topics = new ArrayList<>();
   LessonService lessonService = new LessonService();
+  CourseService courseService = new CourseService();
 
-  @PostMapping("/api/lesson/{lessonId}/topics")
+  @PostMapping("/api/lessons/{lessonId}/topics")
   public Topic createTopic(@PathVariable("lessonId") String lessonId, @RequestBody Topic topic) {
     Lesson lesson = lessonService.findLessonById(lessonId);
     lesson.getTopics().add(topic);
@@ -32,15 +35,22 @@ public class TopicService {
 
   @GetMapping("/api/lessons/{lessonId}/topics")
   public List findAllTopics(@PathVariable("lessonId") String lessonId) {
-    Lesson lesson = lessonService.findLessonById(lessonId);
+    Lesson lesson = LessonService.findLessonById(lessonId);
     return lesson.getTopics();
   }
 
   @GetMapping("/api/topics/{topicId}")
   public Topic findTopicById(@PathVariable("topicId") String topicId) {
-    for(Topic topic : topics) {
-      if(topic.getId().equals(topicId)) {
-        return topic;
+    for(Course course : courseService.findAllCourses()) {
+      for(Module module : course.getModules()) {
+        for(Lesson lesson : module.getLessons()) {
+          for(Topic topic : lesson.getTopics()) {
+            if (topic.getId().equals(topicId)) {
+              return topic;
+            }
+          }
+
+        }
       }
     }
     return null;
@@ -57,7 +67,7 @@ public class TopicService {
     return null;
   }
 
-  @DeleteMapping(" /api/topics/{topicId}")
+  @DeleteMapping("/api/topics/{topicId}")
   public void deleteTopic(@PathVariable("topicId") String topicId) {
     for(Topic topic : topics) {
       if(topic.getId().equals(topicId)) {
@@ -70,6 +80,5 @@ public class TopicService {
         return;
       }
     }
-
   }
 }

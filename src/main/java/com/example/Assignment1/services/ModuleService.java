@@ -16,11 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
 public class ModuleService {
 
   List<Module> modules = new ArrayList<>();
-  CourseService courseservice = new CourseService();
+
+  static CourseService courseservice = new CourseService();
+  {
+    for (Course course : courseservice.findAllCourses()) {
+      for(Module module : course.getModules()) {
+        modules.add(module);      }
+    }
+  }
 
   @PostMapping("/api/courses/{courseId}/modules")
   public Module createModule(@PathVariable("courseId") String courseId, @RequestBody Module module) {
@@ -30,17 +37,21 @@ public class ModuleService {
     return module;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @GetMapping("/api/courses/{courseId}/modules")
-  public List findAllModules(@PathVariable("courseId") String courseId) {
-    Course course = courseservice.findCourseById(courseId);
+  public List<Module> findAllModules(@PathVariable("courseId") String courseId) {
+    Course course = CourseService.findCourseById(courseId);
     return course.getModules();
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @GetMapping("/api/modules/{moduleId}")
-  public Module findModuleById(@PathVariable("moduleId") String moduleId) {
-    for(Module module : modules) {
-      if(module.getId().equals(moduleId)) {
-        return module;
+  public static Module findModuleById(@PathVariable("moduleId") String moduleId) {
+    for (Course course : courseservice.findAllCourses()) {
+      for (Module module : course.getModules()) {
+        if (module.getId().equals(moduleId)) {
+          return module;
+        }
       }
     }
     return null;
@@ -48,8 +59,8 @@ public class ModuleService {
 
   @PutMapping("/api/modules/{moduleId}")
   public Module updateModule(@PathVariable("moduleId") String moduleId, @RequestBody Module module) {
-    for(Module mod : modules) {
-      if(mod.getId().equals(moduleId)) {
+    for (Module mod : modules) {
+      if (mod.getId().equals(moduleId)) {
         mod.setTitle(module.getTitle());
         return mod;
       }
@@ -57,20 +68,22 @@ public class ModuleService {
     return null;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @DeleteMapping("/api/modules/{moduleId}")
-  public void deleteModule(@PathVariable("moduleId") String moduleId) {
-    for(Module module : modules) {
-      if(module.getId().equals(moduleId)) {
+  public List<Module> deleteModule(@PathVariable("moduleId") String moduleId) {
+    for (Module module : modules) {
+      if (module.getId().equals(moduleId)) {
         modules.remove(module);
-        for(Course course: courseservice.courses) {
-          if(course.getModules().contains(module)) {
+        for (Course course : courseservice.courses) {
+          if (course.getModules().contains(module)) {
             course.getModules().remove(module);
+            return modules;
           }
         }
-        return;
+
       }
     }
-
+    return modules;
   }
 
 }

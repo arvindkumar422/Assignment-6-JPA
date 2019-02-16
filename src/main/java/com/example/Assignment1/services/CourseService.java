@@ -17,37 +17,40 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
 
 public class CourseService {
-  List<Course> courses = new ArrayList<>();
+  static List<Course> courses = new ArrayList<>();
   List<Widget> widgets = new ArrayList<>();
   List<Topic> topics = new ArrayList<>();
   List<Lesson> lessons = new ArrayList<>();
   List<Module> modules = new ArrayList<>();
+  Random rand = new Random();
   {
-    Widget widget = new Widget("1", "LIST","top_end");
-    widgets.add(widget);
-    Topic topic = new Topic("2", "topic1", widgets);
-    topics.add(topic);
-    Lesson lesson = new Lesson("2", "lesson1", topics);
-    lessons.add(lesson);
-    Module module = new Module("2", "module1", lessons);
-    modules.add(module);
-    Course course = new Course("2", "course1", modules);
-    courses.add(course);
+//    Widget widget = new Widget("1", "LIST","top_end");
+//    widgets.add(widget);
+//    Topic topic = new Topic("2", "topic1", widgets);
+//    topics.add(topic);
+//    Lesson lesson = new Lesson("3", "lesson1", topics);
+//    lessons.add(lesson);
+//    Module module = new Module("4", "module1", lessons);
+//    modules.add(module);
+//    Course course = new Course("5", "course1", modules);
+//    courses.add(course);
   }
 
   @GetMapping("/api/courses")
-  public List findAllCourses() {
+  public static List<Course> findAllCourses() {
     return courses;
   }
 
 
+  @CrossOrigin(allowCredentials = "true")
   @GetMapping("/api/courses/{courseId}")
-  public Course findCourseById(
+  public static Course findCourseById(
           @PathVariable("courseId") String courseId) {
       for(Course course : courses) {
         if(course.getId().equals(courseId)){
@@ -57,6 +60,7 @@ public class CourseService {
       return null;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @PostMapping("/api/courses")
   public Course createCourse(@RequestBody Course course) {
     courses.add(course);
@@ -77,16 +81,18 @@ public class CourseService {
     return null;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @DeleteMapping("api/courses/{courseId}")
-  public void deleteCourse(
+  public List<Course> deleteCourse(
           @PathVariable("courseId") String courseId) {
 
     for(Course course : courses) {
       if (course.getId().equals(courseId)) {
         courses.remove(course);
-        return;
+        return courses;
       }
     }
+    return courses;
   }
 
 }

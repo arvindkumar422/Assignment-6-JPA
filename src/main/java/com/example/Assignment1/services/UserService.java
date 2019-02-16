@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
 
 public class UserService {
 
@@ -55,9 +55,15 @@ public class UserService {
     return null;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @PostMapping("/api/register")
   public User register(@RequestBody User userObj, HttpSession session) {
-    session.setAttribute("currentUser", userObj);
+    for (User user:users){
+      if (user.getUsername().equals(userObj.getUsername())){
+        return new User("0",null,null,null,null,null);
+      }
+    }
+    session.setAttribute("currentUser",userObj);
     users.add(userObj);
     return userObj;
   }
@@ -68,6 +74,7 @@ public class UserService {
     return prof;
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @PostMapping("api/login")
   public User login(@RequestBody User prof, HttpSession session) {
     for(User user:users) {
@@ -77,7 +84,7 @@ public class UserService {
         return prof;
       }
     }
-    return null;
+    return new User("0",null,null,null,null,null);
   }
 
   @PostMapping("/create")
