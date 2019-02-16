@@ -1,0 +1,24 @@
+html,body,.container
+{
+    height:100%;
+}
+
+.navbar {
+	height: 50px;
+}
+
+div {
+	display: block;
+	margin: 0;
+}
+
+.tableheader {
+	background-color: rgb(100,100,100,0.2);
+	width: 100%;
+	padding: 20px;
+	padding-top: 60px;
+}
+
+
+
+
