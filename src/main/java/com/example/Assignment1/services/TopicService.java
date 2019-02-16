@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
 public class TopicService {
   List<Topic> topics = new ArrayList<>();
   LessonService lessonService = new LessonService();

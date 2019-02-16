@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 
 @RestController
-@CrossOrigin(origins = "http://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
 
 public class UserService {
 
