@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "https://webservices-5.herokuapp.com")
 public class LessonService {
 
   List<Lesson> lessons = new ArrayList<>();
@@ -54,10 +54,14 @@ public class LessonService {
 
   @PutMapping("/api/lessons/{lessonId}")
   public Lesson updateLesson(@PathVariable("lessonId") String lessonId, @RequestBody Lesson lesson) {
-    for(Lesson less : lessons) {
-      if(less.getId().equals(lessonId)) {
-        less.setTitle(lesson.getTitle());
-        return less;
+    for(Course course : CourseService.findAllCourses()) {
+      for(Module module : course.getModules()) {
+        for(Lesson less : module.getLessons()) {
+          if (less.getId().equals(lessonId)) {
+            less.setTitle(lesson.getTitle());
+            return lesson;
+          }
+        }
       }
     }
     return null;
@@ -65,17 +69,17 @@ public class LessonService {
 
   @DeleteMapping("/api/lessons/{lessonId}")
   public void deleteLesson(@PathVariable("lessonId") String lessonId) {
-    for(Lesson lesson : lessons) {
-      if(lesson.getId().equals(lessonId)) {
-        lessons.remove(lesson);
-        for(Module module: moduleService.modules) {
-          if(module.getLessons().contains(lesson)) {
-            module.getLessons().remove(lesson);
+    for(Course course : CourseService.findAllCourses()) {
+      for(Module module : course.getModules()) {
+        for(Lesson less : module.getLessons()) {
+          if (less.getId().equals(lessonId)) {
+            lessons.remove(less);
+            module.getLessons().remove(less);
+            return;
           }
         }
-        return;
       }
     }
-
+    return;
   }
 }

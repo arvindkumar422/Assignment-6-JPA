@@ -1,6 +1,7 @@
 package com.example.Assignment1.services;
 
 import com.example.Assignment1.model.Course;
+import com.example.Assignment1.model.Lesson;
 import com.example.Assignment1.model.Module;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,16 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "https://webservices-5.herokuapp.com")
 public class ModuleService {
 
   List<Module> modules = new ArrayList<>();
 
   static CourseService courseservice = new CourseService();
+
   {
     for (Course course : courseservice.findAllCourses()) {
-      for(Module module : course.getModules()) {
-        modules.add(module);      }
+      for (Module module : course.getModules()) {
+        modules.add(module);
+      }
     }
   }
 
@@ -59,11 +62,14 @@ public class ModuleService {
 
   @PutMapping("/api/modules/{moduleId}")
   public Module updateModule(@PathVariable("moduleId") String moduleId, @RequestBody Module module) {
-    for (Module mod : modules) {
-      if (mod.getId().equals(moduleId)) {
-        mod.setTitle(module.getTitle());
-        return mod;
+    for (Course course : CourseService.findAllCourses()) {
+      for (Module mod : course.getModules()) {
+        if (mod.getId().equals(moduleId)) {
+          mod.setTitle(module.getTitle());
+          return mod;
+        }
       }
+
     }
     return null;
   }
@@ -71,19 +77,17 @@ public class ModuleService {
   @CrossOrigin(allowCredentials = "true")
   @DeleteMapping("/api/modules/{moduleId}")
   public List<Module> deleteModule(@PathVariable("moduleId") String moduleId) {
-    for (Module module : modules) {
-      if (module.getId().equals(moduleId)) {
-        modules.remove(module);
-        for (Course course : courseservice.courses) {
-          if (course.getModules().contains(module)) {
-            course.getModules().remove(module);
-            return modules;
-          }
+    for (Course course : CourseService.findAllCourses()) {
+      for (Module mod : course.getModules()) {
+        if (mod.getId().equals(moduleId)) {
+          modules.remove(mod);
+          course.getModules().remove(mod);
+          return modules;
         }
-
       }
+
     }
-    return modules;
+    return null;
   }
 
 }
