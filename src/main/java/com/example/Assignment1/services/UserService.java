@@ -64,13 +64,13 @@ public class UserService {
   @CrossOrigin(allowCredentials = "true")
   @PostMapping("/api/register")
   public User register(@RequestBody User userObj, HttpSession session) {
-    for (User user:users){
-      if (user.getUsername().equals(userObj.getUsername())){
-        return new User(0,null,null,null,null,null);
-      }
-    }
+//    for (User user:users){
+//      if (user.getUsername().equals(userObj.getUsername())){
+//        return new User(0,null,null,null,null,null);
+//      }
+//    }
     session.setAttribute("currentUser",userObj);
-    users.add(userObj);
+    //users.add(userObj);
     //return userObj;
     return userRepo.save(userObj);
   }
