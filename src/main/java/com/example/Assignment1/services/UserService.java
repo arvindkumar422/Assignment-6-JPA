@@ -69,7 +69,7 @@ public class UserService {
         return new User(0,null,null,null,null,null);
       }
     }
-    //session.setAttribute("currentUser",userObj);
+    session.setAttribute("currentUser",userObj);
     users.add(userObj);
     //return userObj;
     return userRepo.save(userObj);
