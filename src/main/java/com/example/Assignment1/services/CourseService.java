@@ -5,7 +5,9 @@ import com.example.Assignment1.model.Lesson;
 import com.example.Assignment1.model.Module;
 import com.example.Assignment1.model.Topic;
 import com.example.Assignment1.model.Widget;
+import com.example.Assignment1.repositories.CourseRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
-@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "http://localhost:3001")
 
 public class CourseService {
   static List<Course> courses = new ArrayList<>();
@@ -42,57 +45,65 @@ public class CourseService {
 //    courses.add(course);
   }
 
+  @Autowired
+  CourseRepository courseRepo;
+
   @GetMapping("/api/courses")
-  public static List<Course> findAllCourses() {
-    return courses;
+  public List<Course> findAllCourses() {
+    return (List<Course>) courseRepo.findAll();
   }
 
 
   @CrossOrigin(allowCredentials = "true")
   @GetMapping("/api/courses/{courseId}")
-  public static Course findCourseById(
-          @PathVariable("courseId") String courseId) {
-      for(Course course : courses) {
-        if(course.getId().equals(courseId)){
-          return course;
-        }
-      }
-      return null;
+  public Optional<Course> findCourseById(
+          @PathVariable("courseId") int courseId) {
+//      for(Course course : courses) {
+//        if(course.getId().equals(courseId)){
+//          return course;
+//        }
+//      }
+      return courseRepo.findById(courseId);
   }
 
   @CrossOrigin(allowCredentials = "true")
   @PostMapping("/api/courses")
   public Course createCourse(@RequestBody Course course) {
     courses.add(course);
-    return course;
+    return courseRepo.save(course);
   }
 
   @PutMapping("/api/courses/{courseId}")
   public Course updateCourse(
-          @PathVariable("courseId") String courseId,
+          @PathVariable("courseId") int courseId,
           @RequestBody Course newCourse) {
 
-    for (Course course : courses) {
-      if (course.getId().equals(courseId)) {
-        course.setTitle(newCourse.getTitle());
-        return course;
-      }
-    }
-    return null;
+//    for (Course course : courses) {
+//      if (course.getId().equals(courseId)) {
+//        course.setTitle(newCourse.getTitle());
+//        return course;
+//      }
+//    }
+//    return null;
+    Course c = courseRepo.findById(courseId).get();
+    c.setTitle(newCourse.getTitle());
+    return courseRepo.save(c);
   }
 
   @CrossOrigin(allowCredentials = "true")
   @DeleteMapping("api/courses/{courseId}")
   public List<Course> deleteCourse(
-          @PathVariable("courseId") String courseId) {
+          @PathVariable("courseId") int courseId) {
 
-    for(Course course : courses) {
-      if (course.getId().equals(courseId)) {
-        courses.remove(course);
-        return courses;
-      }
-    }
-    return courses;
+//    for(Course course : courses) {
+//      if (course.getId().equals(courseId)) {
+//        courses.remove(course);
+//        return courses;
+//      }
+//    }
+//    return courses;
+    courseRepo.deleteById(courseId);
+    return (List<Course>) courseRepo.findAll();
   }
 
 }

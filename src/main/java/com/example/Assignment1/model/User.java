@@ -1,15 +1,23 @@
 package com.example.Assignment1.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-  private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
   private String username;
   private String password;
   private String firstName;
   private String lastName;
-  private Role role;
+  private String role;
 
-  public User(String id, String username, String password,
-              String firstName, String lastName, Role role) {
+  public User(int id, String username, String password,
+              String firstName, String lastName, String role) {
     this.id = id;
     this.password = password;
     this.username = username;
@@ -21,11 +29,11 @@ public class User {
   public User() {
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -61,11 +69,11 @@ public class User {
     this.lastName = lastName;
   }
 
-  public Role getRole() {
+  public String getRole() {
     return role;
   }
 
-  public void setRole(Role role) {
+  public void setRole(String role) {
     this.role = role;
   }
 }

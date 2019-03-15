@@ -2,13 +2,35 @@ package com.example.Assignment1.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Course {
 
-  private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
   private String title;
+
+  @OneToMany(mappedBy = "course")
   private List<Module> modules;
 
-  public Course(String id, String title, List<Module> modules) {
+  public void module(Module module) {
+    this.modules.add(module);
+    if (module.getCourse() != this) {
+      module.setCourse(this);
+    }
+  }
+
+
+
+
+  public Course(int id, String title, List<Module> modules) {
     this.id = id;
     this.title = title;
     this.modules = modules;
@@ -19,11 +41,11 @@ public class Course {
   }
 
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 

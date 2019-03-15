@@ -1,12 +1,27 @@
 package com.example.Assignment1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Widget {
 
-  private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
   private String type;
   private String position;
 
-  public Widget(String id, String type, String position) {
+  @ManyToOne
+  @JsonIgnore
+  private Topic topic;
+
+  public Widget(int id, String type, String position) {
     this.id = id;
     this.type = type;
     this.position = position;
@@ -18,11 +33,11 @@ public class Widget {
 
 
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -43,5 +58,11 @@ public class Widget {
   }
 
 
+  public Topic getTopic() {
+    return topic;
+  }
 
+  public void setTopic(Topic topic) {
+    this.topic = topic;
+  }
 }

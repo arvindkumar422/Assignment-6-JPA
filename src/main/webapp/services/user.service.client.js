@@ -5,7 +5,7 @@ function AdminUserServiceClient() {
     this.deleteUser = deleteUser;
     this.updateUser = updateUser;
     this.findUsersByField = findUsersByField;
-    this.url='http://localhost:8080/api/user';
+    this.url='http://localhost:3001/api/user';
 
     var self = this;
 
@@ -53,7 +53,7 @@ function AdminUserServiceClient() {
 
     function findUsersByField(usernameStr, firstNameStr, lastNameStr, roleStr) {
 
-        var temp_url = 'http://localhost:8080/api/user';
+        var temp_url = 'http://localhost:3001/api/user';
         if (usernameStr.length != 0) {
             temp_url += '/' + usernameStr;
         }

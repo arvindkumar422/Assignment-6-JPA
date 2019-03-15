@@ -1,14 +1,33 @@
 package com.example.Assignment1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Lesson {
 
-  private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
   private String title;
+
+  @OneToMany(mappedBy = "lesson")
   private List<Topic> topics;
 
-  public Lesson(String id, String title, List<Topic> topics) {
+  @ManyToOne
+  @JsonIgnore
+  private Module module;
+
+  public Lesson(int id, String title, List<Topic> topics) {
     this.id = id;
     this.title = title;
     this.topics = topics;
@@ -18,11 +37,11 @@ public class Lesson {
 
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -40,5 +59,13 @@ public class Lesson {
 
   public void setTopics(List<Topic> topics) {
     this.topics = topics;
+  }
+
+  public Module getModule() {
+    return module;
+  }
+
+  public void setModule(Module module) {
+    this.module = module;
   }
 }

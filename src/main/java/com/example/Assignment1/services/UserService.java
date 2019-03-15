@@ -2,7 +2,9 @@ package com.example.Assignment1.services;
 
 import com.example.Assignment1.model.Role;
 import com.example.Assignment1.model.User;
+import com.example.Assignment1.repositories.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,23 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 
 @RestController
-@CrossOrigin(origins = "https://assignment5-neu.herokuapp.com")
+@CrossOrigin(origins = "http://localhost:3001")
 
 public class UserService {
 
 
 
-  User alice = new User("123", "abc", "ppp",
-          "def", "ghi", Role.FACULTY);
-  User bob = new User("456", "bob", "qqq",
-          "jkl", "mno", Role.STUDENT);
-  User carl = new User("789", "carl", "rrr",
-          "pqr", "stu", Role.ADMIN);
+  User alice = new User(123, "abc", "ppp",
+          "def", "ghi", "FACULTY");
+  User bob = new User(456, "bobba", "qqq",
+          "jkl", "mno", "STUDENT");
+  User carl = new User(789, "carl", "rrr",
+          "pqr", "stu", "ADMIN");
 
   List<User> users = new ArrayList(){{
     add(alice);
@@ -39,20 +42,23 @@ public class UserService {
   }};
 
 
+  @Autowired
+  UserRepository userRepo;
 
   @GetMapping("/api/user")
   public List findAllUsers() {
-    return users;
+    return (List<User>) userRepo.findAll();
   }
 
   @GetMapping("/api/user/{userId}")
-  public User findUserById(@PathVariable("userId") String id) {
-    for(User user : users) {
-      if (id.equals(user.getId())) {
-        return user;
-      }
-    }
-    return null;
+  public Optional<User> findUserById(@PathVariable("userId") int id) {
+//    for(User user : users) {
+//      if (id.equals(user.getId())) {
+//        return user;
+//      }
+//    }
+//    return null;
+    return userRepo.findById(id);
   }
 
   @CrossOrigin(allowCredentials = "true")
@@ -60,12 +66,13 @@ public class UserService {
   public User register(@RequestBody User userObj, HttpSession session) {
     for (User user:users){
       if (user.getUsername().equals(userObj.getUsername())){
-        return new User("0",null,null,null,null,null);
+        return new User(0,null,null,null,null,null);
       }
     }
     session.setAttribute("currentUser",userObj);
     users.add(userObj);
-    return userObj;
+    //return userObj;
+    return userRepo.save(userObj);
   }
 
   @PostMapping("api/profile")
@@ -77,14 +84,16 @@ public class UserService {
   @CrossOrigin(allowCredentials = "true")
   @PostMapping("api/login")
   public User login(@RequestBody User prof, HttpSession session) {
-    for(User user:users) {
+    List<User> u = (List<User>) userRepo.findAll();
+    for(User user:u) {
       if(user.getUsername().equals(prof.getUsername()) &&
               user.getPassword().equals(prof.getPassword())) {
         session.setAttribute("currentUser", user);
         return prof;
       }
     }
-    return new User("0",null,null,null,null,null);
+    return (userRepo.findUserByCredentials(prof.getUsername(), prof.getPassword()));
+    //return new User(0,null,null,null,null,null);
   }
 
   @PostMapping("/create")
@@ -96,12 +105,13 @@ public class UserService {
   }
 
   @DeleteMapping("/api/user/{userId}")
-  public void deleteUser(@PathVariable("userId") String id) {
-    for(User user : users) {
-      if(user.getId().equals(id)) {
-        users.remove(user);
-      }
-    }
+  public void deleteUser(@PathVariable("userId") int id) {
+//    for(User user : users) {
+//      if(user.getId() == id) {
+//        users.remove(user);
+//      }
+//    }
+    userRepo.deleteById(id);
   }
 
   @GetMapping("/api/user/{username}/{firstName}/{lastName}/{role}")
@@ -111,7 +121,8 @@ public class UserService {
                                @PathVariable("role") Role role)
   {
     List<User> newList = new ArrayList<>();
-    for(User user : users) {
+    List<User> u = findAllUsers();
+    for(User user : u) {
       if(user.getUsername().equals(username) || username.equals("un=*")) {
         if(user.getFirstName().equals(firstName) || firstName.equals("fn=*")) {
           if(user.getLastName().equals(lastName) || lastName.equals("ln=*")) {
@@ -127,28 +138,36 @@ public class UserService {
 
 
   @PutMapping("/api/user/{userId}")
-  public void updateUser(@PathVariable("userId") String id,
+  public User updateUser(@PathVariable("userId") int id,
                          @RequestBody User user) {
-    for(int i = 0; i < users.size(); i++) {
-      if (users.get(i).getId().equals(id)) {
-        if(user.getUsername().length() != 0) {
-          users.get(i).setUsername(user.getUsername());
-        }
-        if(user.getPassword().length() != 0) {
-          users.get(i).setPassword(user.getPassword());
-        }
-        if(user.getFirstName().length() != 0) {
-          users.get(i).setFirstName(user.getFirstName());
-        }
-        if(user.getLastName().length() != 0) {
-          users.get(i).setLastName(user.getLastName());
-        }
-        users.get(i).setRole(user.getRole());
-      }
-      else {
-        continue;
-      }
-    }
+//    for(int i = 0; i < users.size(); i++) {
+//      if (users.get(i).getId() == id) {
+//        if(user.getUsername().length() != 0) {
+//          users.get(i).setUsername(user.getUsername());
+//        }
+//        if(user.getPassword().length() != 0) {
+//          users.get(i).setPassword(user.getPassword());
+//        }
+//        if(user.getFirstName().length() != 0) {
+//          users.get(i).setFirstName(user.getFirstName());
+//        }
+//        if(user.getLastName().length() != 0) {
+//          users.get(i).setLastName(user.getLastName());
+//        }
+//        users.get(i).setRole(user.getRole());
+//      }
+//      else {
+//        continue;
+//      }
+//    }
+
+    User u = userRepo.findById(id).get();
+    u.setUsername(user.getUsername());
+    u.setPassword(user.getPassword());
+    u.setFirstName(user.getFirstName());
+    u.setLastName(user.getLastName());
+    u.setRole(user.getRole());
+    return userRepo.save(u);
   }
 
   @PostMapping("/api/logout")
