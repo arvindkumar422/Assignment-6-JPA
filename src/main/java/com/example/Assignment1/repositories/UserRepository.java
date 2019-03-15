@@ -1,7 +1,6 @@
 package com.example.Assignment1.repositories;
 
 import com.example.Assignment1.model.User;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
