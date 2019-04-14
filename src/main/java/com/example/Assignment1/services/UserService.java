@@ -45,6 +45,7 @@ public class UserService {
   @Autowired
   UserRepository userRepo;
 
+  @CrossOrigin(allowCredentials = "true")
   @GetMapping("/api/user")
   public List findAllUsers() {
     return (List<User>) userRepo.findAll();
@@ -75,14 +76,15 @@ public class UserService {
     return userRepo.save(userObj);
   }
 
-  @PostMapping("api/profile")
+  @CrossOrigin(allowCredentials = "true")
+  @PostMapping("/api/profile")
   public User profile(HttpSession session) {
     User prof = (User) session.getAttribute("currentUser");
     return prof;
   }
 
   @CrossOrigin(allowCredentials = "true")
-  @PostMapping("api/login")
+  @PostMapping("/api/login")
   public User login(@RequestBody User prof, HttpSession session) {
     List<User> u = (List<User>) userRepo.findAll();
     for(User user:u) {
@@ -96,6 +98,7 @@ public class UserService {
     //return new User(0,null,null,null,null,null);
   }
 
+  @CrossOrigin(allowCredentials = "true")
   @PostMapping("/create")
   public String createUser(@RequestBody User userObj) {
 //    User newUser = new User(110, username, "asd", "asd");
