@@ -1,8 +1,6 @@
 package com.example.Assignment1.services;
 
-import com.example.Assignment1.model.Course;
 import com.example.Assignment1.model.Lesson;
-import com.example.Assignment1.model.Module;
 import com.example.Assignment1.repositories.LessonRepository;
 import com.example.Assignment1.repositories.ModuleRepository;
 
@@ -21,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "https://assignment-6-neu.herokuapp.com")
+@CrossOrigin(origins = "https://angular-neu-7.herokuapp.com")
 public class LessonService {
 
   List<Lesson> lessons = new ArrayList<>();
