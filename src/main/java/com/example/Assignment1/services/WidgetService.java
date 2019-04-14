@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "https://angular-neu-7.herokuapp.com")
+@CrossOrigin(origins = "https://assignment-6-neu.herokuapp.com")
 public class WidgetService {
 
   @Autowired
